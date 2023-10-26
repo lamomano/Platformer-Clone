@@ -9,6 +9,7 @@ using UnityEngine;
  * Last Updated: [10/23/2023]
  * [Handles the spawners of laser projectiles]
  */
+/*
 public class Spawner : MonoBehaviour
 {
 
@@ -38,3 +39,4 @@ public class Spawner : MonoBehaviour
         }
     }
 }
+*/

@@ -9,7 +9,7 @@ using UnityEngine;
  * Last Updated: [10/23/2023]
  * [Handles the linear movement of laser projectiles]
  */
-public class Laser : MonoBehaviour
+public class PlayerLaser : MonoBehaviour
 {
     // projectile variables
     public float speed;
@@ -26,6 +26,29 @@ public class Laser : MonoBehaviour
         else
         {
             transform.position += speed * Vector3.right * Time.deltaTime;
+        }
+    }
+
+
+
+
+    /// <summary>
+    /// Handles the collisions of the laser. if it collides with anything other than the player, delete and do damage if possible
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag != "Player")
+        {
+            // do damage if the target hit was an enemy
+            if (other.gameObject.tag == "Enemy")
+            {
+
+            }
+
+
+            other.gameObject.SetActive(false);
+            Destroy(other.gameObject);
         }
     }
 }

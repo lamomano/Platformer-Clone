@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,8 +15,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 
-
-    public int speed = 2; 
+    public int speed = 0; 
     public int jumpForce = 10;
 
 
@@ -29,20 +29,27 @@ public class PlayerController : MonoBehaviour
     public float stunTimer;
 
     private Rigidbody rigidBody;
+    private Transform gunBarrel;
+    public GameObject projectilePrefab;
     public bool isGrounded;
+    public bool facingLeft;
+    public bool shootingDebounce = false;
+
 
     // Start is called before the first frame update
     void Start()
     {
         startPosition = transform.position; 
         rigidBody= GetComponent<Rigidbody>();
+        gunBarrel = transform.Find("gun_barrel");
+        facingLeft = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
-        
+        Shoot();
         SpaceJump();
     }
 
@@ -56,15 +63,17 @@ public class PlayerController : MonoBehaviour
 
         Vector3 add_position = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.A))
         {
-            print("Move the player left");
+            //print("Move the player left");
             add_position += Vector3.left * speed * Time.deltaTime;
+            facingLeft = true;
         }
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.D))
         {
-            print("Move the player right");
+            //print("Move the player right");
             add_position += Vector3.right * speed * Time.deltaTime;
+            facingLeft = false;
         }
 
         transform.position += add_position;
@@ -78,6 +87,60 @@ public class PlayerController : MonoBehaviour
     }
 
 
+
+    private IEnumerator ShootDebounce()
+    {
+        yield return new WaitForSeconds(0.5f);
+        shootingDebounce = false;
+    }
+
+
+
+    /// <summary>
+    /// shoots a laser. laser damage is stronger depending on pickup
+    /// </summary>
+    private void Shoot()
+    {
+        if (shootingDebounce == true)
+        {
+            return;
+        }
+        if (Input.GetKey(KeyCode.Return))
+        {
+            shootingDebounce = true;
+            ShootDebounce();
+
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+            if (projectile.GetComponent<PlayerLaser>())
+            {
+                projectile.GetComponent<PlayerLaser>().goingLeft = facingLeft;
+            }
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            shootingDebounce = true;
+            ShootDebounce();
+
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+            if (projectile.GetComponent<PlayerLaser>())
+            {
+                projectile.GetComponent<PlayerLaser>().goingLeft = true;
+            }
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            shootingDebounce = true;
+            ShootDebounce();
+
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+            if (projectile.GetComponent<PlayerLaser>())
+            {
+                projectile.GetComponent<PlayerLaser>().goingLeft = false;
+            }
+        }
+    }
+
+    
 
 
 
