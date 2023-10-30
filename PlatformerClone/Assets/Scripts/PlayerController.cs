@@ -176,6 +176,14 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Stun());
         }
+        if (other.gameObject.tag == "Teleporter")
+        {
+            //reset the startPosition to the spawnPoint location
+            startPosition = other.gameObject.GetComponent<Teleporter>().spawnPoint.transform.position;
+
+            //teleport the player to the "new" startPosition
+            transform.position = startPosition;
+        }
     }
 
 
