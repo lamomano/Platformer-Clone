@@ -38,6 +38,7 @@ public class PlayerLaser : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
+        print("hit");
         if (other.gameObject.tag != "Player")
         {
             // do damage if the target hit was an enemy

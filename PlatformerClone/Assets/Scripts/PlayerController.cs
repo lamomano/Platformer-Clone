@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
 
     public int lives = 3;
+    public int health = 99;
     public int fallDepth;
     private Vector3 startPosition;
 
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
         gunBarrel = transform.Find("gun_barrel");
         facingLeft = false;
     }
+
 
     // Update is called once per frame
     void Update()
@@ -88,12 +90,6 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private IEnumerator ShootDebounce()
-    {
-        yield return new WaitForSeconds(0.5f);
-        shootingDebounce = false;
-    }
-
 
 
     /// <summary>
@@ -105,10 +101,12 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+
+        // make sure to wrap ShootDebounce() in StartCoroutine() in order for the coroutines to work
+
         if (Input.GetKey(KeyCode.Return))
         {
-            shootingDebounce = true;
-            ShootDebounce();
+            StartCoroutine(ShootDebounce());
 
             GameObject projectile = Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
             if (projectile.GetComponent<PlayerLaser>())
@@ -118,8 +116,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            shootingDebounce = true;
-            ShootDebounce();
+            StartCoroutine(ShootDebounce());
 
             GameObject projectile = Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
             if (projectile.GetComponent<PlayerLaser>())
@@ -129,9 +126,8 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            shootingDebounce = true;
-            ShootDebounce();
-
+            StartCoroutine(ShootDebounce());
+            
             GameObject projectile = Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
             if (projectile.GetComponent<PlayerLaser>())
             {
@@ -140,7 +136,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+
+
+    IEnumerator ShootDebounce()
+    {
+        shootingDebounce = true;
+        yield return new WaitForSeconds(0.5f);
+        shootingDebounce = false;
+    }
+
 
 
 
@@ -230,13 +234,15 @@ public class PlayerController : MonoBehaviour
 
 
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     private void Respawn()
     {
         transform.position = startPosition;
-        lives--;
+        health--;
 
-        if (lives <= 0)
+        if (health <= 0)
         {
             SceneManager.LoadScene(1);
             this.enabled = false;
