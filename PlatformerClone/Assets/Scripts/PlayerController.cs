@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 /*
  * Author: [Nguyen, Kanyon]
- * Last Updated: [10/23/2023]
+ * Last Updated: [10/31/2023]
  * [Handles the functionality of the player, including collision interaction, movement, and raycasting]
  */
 public class PlayerController : MonoBehaviour
@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     public int speed = 0; 
     public int jumpForce = 10;
+    public float shootingCooldown = 0.5f;
 
 
     public int totalCoins = 0;
@@ -138,10 +139,17 @@ public class PlayerController : MonoBehaviour
 
 
 
+
+
+    /// <summary>
+    /// prevents the lasers from being spammed by setting debounce to true, which stops the bullets from shooting
+    /// resets the debounce after x seconds has passed
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ShootDebounce()
     {
         shootingDebounce = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(shootingCooldown);
         shootingDebounce = false;
     }
 
@@ -191,6 +199,9 @@ public class PlayerController : MonoBehaviour
     }
 
 
+
+
+
     /// <summary>
     /// prevents the player from moving for x seconds
     /// </summary>
@@ -202,6 +213,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(stunTimer);
         speed = currentPlayerSpeed;
     }
+
 
 
 
