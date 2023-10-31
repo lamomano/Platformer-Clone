@@ -70,12 +70,15 @@ public class PlayerController : MonoBehaviour
         {
             //print("Move the player left");
             add_position += Vector3.left * speed * Time.deltaTime;
+            gunBarrel.localPosition = new Vector3(-1.125f, 0.25f, 0f);
             facingLeft = true;
+
         }
         if (Input.GetKey(KeyCode.D))
         {
             //print("Move the player right");
             add_position += Vector3.right * speed * Time.deltaTime;
+            gunBarrel.localPosition = new Vector3(1.125f, 0.25f, 0f);
             facingLeft = false;
         }
 
