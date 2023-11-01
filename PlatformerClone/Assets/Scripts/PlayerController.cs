@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.UI;
 using UnityEngine;
@@ -38,6 +39,9 @@ public class PlayerController : MonoBehaviour
     public bool shootingDebounce = false;
 
 
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +49,11 @@ public class PlayerController : MonoBehaviour
         rigidBody= GetComponent<Rigidbody>();
         gunBarrel = transform.Find("gun_barrel");
         facingLeft = false;
+        SetupLaserCollisions();
     }
+
+
+
 
 
     // Update is called once per frame
@@ -55,6 +63,93 @@ public class PlayerController : MonoBehaviour
         Shoot();
         SpaceJump();
     }
+
+
+
+
+
+    /// <summary>
+    /// adds a mesh collider and rigidbody to all untagged or "Terrain" tagged game objects in the scene.
+    /// skips over objects with the name "Directional Light" and "SpawnPoint" because they are not visible objects.
+    /// this is so that lasers delete when hitting the floors or walls.
+    /// </summary>
+    void SetupLaserCollisions()
+    {
+        GameObject[] allGameObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+
+        int total_terrain_parts = 0;
+
+        foreach (GameObject thisObject in allGameObjects)
+        {
+            if (thisObject.name == "Directional Light" || thisObject.name == "SpawnPoint")
+            {
+                continue;
+            }
+            // check to see if the object is a parent that has parts underneath it
+            // if it has children, edit the children instead of the empty parent
+            // otherwise know it's an independent object so we just edit the individual instead
+
+            if (thisObject.transform.childCount > 0)
+            {
+                //print("found a parent instance");
+                for (int i = 0; i < thisObject.transform.childCount; i++)
+                {
+
+                    GameObject child = thisObject.transform.GetChild(i).gameObject;
+                    if (child.name == "Directional Light" || child.name == "SpawnPoint")
+                    {
+                        continue;
+                    }
+                    if (child.tag == "Untagged" || child.tag == "Terrain")
+                    {
+                        SetupCollisionFor(child);
+                        total_terrain_parts++;
+                    }
+                }
+            }
+            else if (thisObject.tag == "Untagged" || thisObject.tag == "Terrain")
+            {
+                SetupCollisionFor(thisObject);
+                total_terrain_parts++;
+            }
+        }
+
+        print("Found "+ total_terrain_parts + " pieces of terrain");
+    }
+
+
+
+
+
+    /// <summary>
+    /// takes the given gameobject and applies a mesh collider and rigidbody if the gameObject does not have them already.
+    /// also turns on the IsTrigger() for the box collider
+    /// this is for the player and laser collisions to work properly
+    /// </summary>
+    void SetupCollisionFor(GameObject givenObject)
+    {
+        if (givenObject.GetComponent<BoxCollider>() == null)
+            givenObject.AddComponent<BoxCollider>();
+
+        givenObject.GetComponent<BoxCollider>().isTrigger = true;
+
+
+        if (givenObject.GetComponent<Rigidbody>() == null)
+            givenObject.AddComponent<Rigidbody>();
+
+        givenObject.GetComponent<Rigidbody>().useGravity = false;
+        givenObject.GetComponent<Rigidbody>().isKinematic = true;
+        givenObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
+
+        if (givenObject.GetComponent<MeshCollider>() == null)
+            givenObject.AddComponent<MeshCollider>();
+
+        givenObject.GetComponent<MeshCollider>().convex = true;
+    }
+
+
+
 
 
     /// <summary>
@@ -69,7 +164,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             //print("Move the player left");
-            add_position += Vector3.left * speed * Time.deltaTime;
+            transform.position += Vector3.left * speed * Time.deltaTime;
+            //add_position += Vector3.left * speed * Time.deltaTime;
             gunBarrel.localPosition = new Vector3(-1.125f, 0.25f, 0f);
             facingLeft = true;
 
@@ -77,12 +173,13 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             //print("Move the player right");
-            add_position += Vector3.right * speed * Time.deltaTime;
+            transform.position += Vector3.right * speed * Time.deltaTime;
+            //add_position += Vector3.right * speed * Time.deltaTime;
             gunBarrel.localPosition = new Vector3(1.125f, 0.25f, 0f);
             facingLeft = false;
         }
 
-        transform.position += add_position;
+        //transform.position += add_position;
 
         if (transform.position.y < fallDepth) 
         {

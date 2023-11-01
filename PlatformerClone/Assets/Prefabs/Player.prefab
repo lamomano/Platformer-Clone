@@ -234,7 +234,7 @@ MonoBehaviour:
   totalCoins: 0
   lives: 3
   health: 99
-  fallDepth: 0
+  fallDepth: -5
   stunTimer: 0
   projectilePrefab: {fileID: 509115696251635578, guid: c19e788366dbde8438edb4d3fb210f68, type: 3}
   isGrounded: 0

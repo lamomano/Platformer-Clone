@@ -120,3 +120,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   goingLeft: 0
+  thisLaser: {fileID: 509115696251635578}

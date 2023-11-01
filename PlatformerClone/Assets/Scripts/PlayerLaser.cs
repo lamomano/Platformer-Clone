@@ -6,7 +6,7 @@ using UnityEngine;
 
 /*
  * Author: [Nguyen, Kanyon]
- * Last Updated: [10/23/2023]
+ * Last Updated: [10/31/2023]
  * [Handles the linear movement of laser projectiles]
  */
 public class PlayerLaser : MonoBehaviour
@@ -15,6 +15,13 @@ public class PlayerLaser : MonoBehaviour
     public float speed;
     public bool goingLeft;
 
+    public GameObject thisLaser;
+
+
+    private void Start()
+    {
+        thisLaser = GetComponent<GameObject>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -29,27 +36,35 @@ public class PlayerLaser : MonoBehaviour
         }
     }
 
-
+    
 
 
     /// <summary>
-    /// Handles the collisions of the laser. if it collides with anything other than the player, delete and do damage if possible
+    /// Handles the collisions of the laser. if it collides with anything other than the player, delete and do damage if its an enemy
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
-        print("hit");
         if (other.gameObject.tag != "Player")
         {
             // do damage if the target hit was an enemy
             if (other.gameObject.tag == "Enemy")
             {
-
+                DestroyLaser();
             }
 
-
-            other.gameObject.SetActive(false);
-            Destroy(other.gameObject);
+            //print(other.gameObject.tag);
+            DestroyLaser();
         }
+    }
+
+
+    /// <summary>
+    /// Destroys the laser gameobject.
+    /// </summary>
+    void DestroyLaser()
+    {
+        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
