@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     public GameObject leftPoint;
     public GameObject rightPoint;
 
+    public int contactDamage = 0;
+
     //boundary points for left/right
     private Vector3 leftPosition;
     private Vector3 rightPosition;
@@ -23,6 +25,8 @@ public class Enemy : MonoBehaviour
 
     //the direction it is going
     public bool goingLeft;
+
+
 
     // Start is called before the first frame update
     void Start()

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     public int totalCoins = 0;
 
 
-    public int lives = 3;
+ 
     public int health = 99;
     public int fallDepth;
     private Vector3 startPosition;
@@ -34,10 +34,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rigidBody;
     private Transform gunBarrel;
     public GameObject projectilePrefab;
+    private Renderer renderer;
+
+    public bool isInvincible = false;
     public bool isGrounded;
     public bool facingLeft;
     public bool shootingDebounce = false;
-
 
 
 
@@ -49,6 +51,7 @@ public class PlayerController : MonoBehaviour
         rigidBody= GetComponent<Rigidbody>();
         gunBarrel = transform.Find("gun_barrel");
         facingLeft = false;
+        renderer = GetComponent<Renderer>();
         SetupLaserCollisions();
     }
 
@@ -177,6 +180,7 @@ public class PlayerController : MonoBehaviour
             //add_position += Vector3.right * speed * Time.deltaTime;
             gunBarrel.localPosition = new Vector3(1.125f, 0.25f, 0f);
             facingLeft = false;
+
         }
 
         //transform.position += add_position;
@@ -273,15 +277,12 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Spike")
         {
-            Respawn();
-        }
+            
+            int damage = other.gameObject.GetComponent<Enemy>().contactDamage;
+            TakeDamage(damage);
+            
 
-        if (other.gameObject.tag == "Portal")
-        {
-            //reset the startPos to the spawnPoint position
-            startPosition = other.gameObject.GetComponent<Portal>().spawnPoint.transform.position;
-            //bring the player back to the start position
-            transform.position = startPosition;
+            //Respawn();
         }
 
         if (other.gameObject.tag == "Laser")
@@ -292,13 +293,10 @@ public class PlayerController : MonoBehaviour
         {
             //reset the startPosition to the spawnPoint location
             startPosition = other.gameObject.GetComponent<Teleporter>().spawnPoint.transform.position;
-
             //teleport the player to the "new" startPosition
             transform.position = startPosition;
         }
     }
-
-
 
 
 
@@ -341,6 +339,59 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown("space") && isGrounded) 
         {
             rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+
+
+
+    /// <summary>
+    /// subtracts health from the player character and calls for the player to become invincible
+    /// 
+    /// if player is invincible, dont take damage
+    /// </summary>
+    /// <param name="damageToTake"></param>
+    private void TakeDamage(int damageToTake)
+    {
+
+        if (isInvincible == false)
+        {
+            health -= damageToTake;
+            StartCoroutine(TurnInvincible());
+        }
+    }
+
+
+
+
+
+    /// <summary>
+    /// prevents the player from taking damage for 5 seconds
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator TurnInvincible()
+    {
+        if (isInvincible == false)
+        {
+            isInvincible = true;
+            InvokeRepeating("toggleBlink", 0f, 0.25f);
+            yield return new WaitForSeconds(5f);
+            isInvincible = false;
+            CancelInvoke();
+            renderer.enabled = true;
+        }
+    }
+
+    private void toggleBlink()
+    {
+        print(gameObject.name);
+        if (renderer.enabled == true)
+        {
+            renderer.enabled = false;
+        }
+        else
+        {
+            renderer.enabled = true;
         }
     }
 
