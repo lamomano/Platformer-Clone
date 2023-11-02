@@ -8,13 +8,14 @@ using UnityEngine;
  * Handles code for enemies
  */
 
-public class Enemy : MonoBehaviour
+public class RegularEnemy : MonoBehaviour
 {
     //game objects to determine how far left/right enemy goes
     public GameObject leftPoint;
     public GameObject rightPoint;
 
     public int contactDamage = 0;
+    public int health = 0;
 
     //boundary points for left/right
     private Vector3 leftPosition;
@@ -39,6 +40,12 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         EnemyMove();
+
+        if (health <= 0)
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
     }
 
     /// <summary>

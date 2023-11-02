@@ -15,6 +15,8 @@ public class PlayerLaser : MonoBehaviour
     public float speed;
     public bool goingLeft;
 
+    public int damage = 0;
+
     public GameObject thisLaser;
 
 
@@ -48,10 +50,16 @@ public class PlayerLaser : MonoBehaviour
         if (other.gameObject.tag != "Player")
         {
             // do damage if the target hit was an enemy
-            if (other.gameObject.tag == "Enemy")
+            if (other.gameObject.tag == "RegularEnemy")
             {
-                DestroyLaser();
+                other.gameObject.GetComponent<RegularEnemy>().health -= damage;
+                print("damaged enemy");
             }
+            if (other.gameObject.tag == "HardEnemy")
+            {
+                //other.gameObject.GetComponent<HardEnemy>().health -= damage;
+            }
+
 
             //print(other.gameObject.tag);
             DestroyLaser();

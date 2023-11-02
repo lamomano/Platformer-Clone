@@ -232,14 +232,16 @@ MonoBehaviour:
   jumpForce: 10
   shootingCooldown: 0.5
   totalCoins: 0
-  lives: 3
   health: 99
   fallDepth: -5
   stunTimer: 0
-  projectilePrefab: {fileID: 509115696251635578, guid: c19e788366dbde8438edb4d3fb210f68, type: 3}
+  regularProjectilePrefab: {fileID: 509115696251635578, guid: c19e788366dbde8438edb4d3fb210f68, type: 3}
+  heavyProjectilePrefab: {fileID: 8017270705906885075, guid: d7bf4f587618db547b8f82e8d12b1cd4, type: 3}
+  isInvincible: 0
   isGrounded: 0
   facingLeft: 0
   shootingDebounce: 0
+  heavyLaserEnabled: 0
 --- !u!54 &6606376711133194707
 Rigidbody:
   m_ObjectHideFlags: 0

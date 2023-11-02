@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
 
     public int totalCoins = 0;
 
-
  
     public int health = 99;
     public int fallDepth;
@@ -33,14 +32,15 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rigidBody;
     private Transform gunBarrel;
-    public GameObject projectilePrefab;
-    private Renderer renderer;
+    public GameObject regularProjectilePrefab;
+    public GameObject heavyProjectilePrefab;
+    private Renderer playerRenderer;
 
     public bool isInvincible = false;
     public bool isGrounded;
     public bool facingLeft;
     public bool shootingDebounce = false;
-
+    public bool heavyLaserEnabled = false;
 
 
 
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         rigidBody= GetComponent<Rigidbody>();
         gunBarrel = transform.Find("gun_barrel");
         facingLeft = false;
-        renderer = GetComponent<Renderer>();
+        playerRenderer = GetComponent<Renderer>();
         SetupLaserCollisions();
     }
 
@@ -207,38 +207,47 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // make sure to wrap ShootDebounce() in StartCoroutine() in order for the coroutines to work
+        // getting the direction of where the laser must go
+        // if the player is pressing enter, shoot where the character is facing
+        // if the player is using left or right arrow keys, shoot correspondingly to those directions
+        // if none of those keys are pressed, don't shoot
+
+        bool shootingLeft = false;
 
         if (Input.GetKey(KeyCode.Return))
+            shootingLeft = facingLeft;
+        else
         {
-            StartCoroutine(ShootDebounce());
+            if (Input.GetKey(KeyCode.LeftArrow))
+                shootingLeft = true;
+            else if (Input.GetKey(KeyCode.RightArrow))
+                shootingLeft = false;
+            else
+            {
+                // no key was pressed
+                return;
+            }
+        }
 
-            GameObject projectile = Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
-            if (projectile.GetComponent<PlayerLaser>())
-            {
-                projectile.GetComponent<PlayerLaser>().goingLeft = facingLeft;
-            }
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            StartCoroutine(ShootDebounce());
+        StartCoroutine(ShootDebounce());
 
-            GameObject projectile = Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
-            if (projectile.GetComponent<PlayerLaser>())
-            {
-                projectile.GetComponent<PlayerLaser>().goingLeft = true;
-            }
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (heavyLaserEnabled == true)
         {
-            StartCoroutine(ShootDebounce());
-            
-            GameObject projectile = Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+            GameObject projectile = Instantiate(heavyProjectilePrefab, transform.position, heavyProjectilePrefab.transform.rotation);
             if (projectile.GetComponent<PlayerLaser>())
             {
-                projectile.GetComponent<PlayerLaser>().goingLeft = false;
+                projectile.GetComponent<PlayerLaser>().goingLeft = shootingLeft;
             }
         }
+        else
+        {
+            GameObject projectile = Instantiate(regularProjectilePrefab, transform.position, regularProjectilePrefab.transform.rotation);
+            if (projectile.GetComponent<PlayerLaser>())
+            {
+                projectile.GetComponent<PlayerLaser>().goingLeft = shootingLeft;
+            }
+        }
+        
     }
 
 
@@ -275,10 +284,10 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
         }
 
-        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Spike")
+        if (other.gameObject.tag == "RegularEnemy")
         {
             
-            int damage = other.gameObject.GetComponent<Enemy>().contactDamage;
+            int damage = other.gameObject.GetComponent<RegularEnemy>().contactDamage;
             TakeDamage(damage);
             
 
@@ -378,20 +387,20 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(5f);
             isInvincible = false;
             CancelInvoke();
-            renderer.enabled = true;
+            playerRenderer.enabled = true;
         }
     }
 
     private void toggleBlink()
     {
-        print(gameObject.name);
-        if (renderer.enabled == true)
+        //print(gameObject.name);
+        if (playerRenderer.enabled == true)
         {
-            renderer.enabled = false;
+            playerRenderer.enabled = false;
         }
         else
         {
-            renderer.enabled = true;
+            playerRenderer.enabled = true;
         }
     }
 
