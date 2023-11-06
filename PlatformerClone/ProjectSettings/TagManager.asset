@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Terrain
   - RegularEnemy
+  - Health
+  - ExtraHealth
   layers:
   - Default
   - TransparentFX

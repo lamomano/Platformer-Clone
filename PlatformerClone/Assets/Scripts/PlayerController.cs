@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
 
     public int totalCoins = 0;
 
- 
+
+    public int maxHealth = 99;
     public int health = 99;
     public int fallDepth;
     private Vector3 startPosition;
@@ -294,6 +295,32 @@ public class PlayerController : MonoBehaviour
             //Respawn();
         }
 
+        if (other.gameObject.tag == "Jetpack")
+        {
+
+        }
+        if (other.gameObject.tag == "ExtraHealth")
+        {
+            maxHealth += 100;
+            health = maxHealth;
+        }
+        if (other.gameObject.tag == "Health")
+        {
+            int healingAmount = other.gameObject.GetComponent<HealthPack>().healingAmount;
+            health+= healingAmount;
+
+            if (health > maxHealth)
+            {
+                health = maxHealth;
+            }
+            other.gameObject.SetActive(true);
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.tag == "HeavyBullet")
+        {
+
+        }
+
         if (other.gameObject.tag == "Laser")
         {
             StartCoroutine(Stun());
@@ -367,6 +394,10 @@ public class PlayerController : MonoBehaviour
         {
             health -= damageToTake;
             StartCoroutine(TurnInvincible());
+        }
+        if (health <= 0)
+        {
+            //die
         }
     }
 
