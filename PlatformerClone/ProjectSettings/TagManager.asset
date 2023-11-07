@@ -10,6 +10,7 @@ TagManager:
   - RegularEnemy
   - Health
   - ExtraHealth
+  - HardEnemy
   layers:
   - Default
   - TransparentFX
