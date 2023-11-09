@@ -297,17 +297,23 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.tag == "Jetpack")
         {
-
+            jumpForce = 20;
+            other.gameObject.SetActive(true);
+            Destroy(other.gameObject);
         }
+
         if (other.gameObject.tag == "ExtraHealth")
         {
             maxHealth += 100;
             health = maxHealth;
+            other.gameObject.SetActive(true);
+            Destroy(other.gameObject);
         }
+
         if (other.gameObject.tag == "Health")
         {
             int healingAmount = other.gameObject.GetComponent<HealthPack>().healingAmount;
-            health+= healingAmount;
+            health += healingAmount;
 
             if (health > maxHealth)
             {
@@ -316,15 +322,19 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(true);
             Destroy(other.gameObject);
         }
+
         if (other.gameObject.tag == "HeavyBullet")
         {
-
+            heavyLaserEnabled = true;
+            other.gameObject.SetActive(true);
+            Destroy(other.gameObject);
         }
 
         if (other.gameObject.tag == "Laser")
         {
             StartCoroutine(Stun());
         }
+
         if (other.gameObject.tag == "Teleporter")
         {
             //reset the startPosition to the spawnPoint location
