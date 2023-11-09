@@ -11,6 +11,8 @@ TagManager:
   - Health
   - ExtraHealth
   - HardEnemy
+  - Jetpack
+  - HeavyBullet
   layers:
   - Default
   - TransparentFX
