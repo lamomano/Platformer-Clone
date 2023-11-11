@@ -4,24 +4,18 @@ using UnityEngine;
 
 public class HardEnemy : MonoBehaviour
 {
-    private Vector3 startPosition;
-    private Vector3 endPosition;
-    public float speed;
-    public Transform objectToFollow;
-    public int contactDamage = 0;
+    [SerializeField] private GameObject player;
+    [SerializeField] private float speed = 1.5f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (this.gameObject.tag == "HardEnemy")
-        {
-            transform.position = objectToFollow.position;
-        }
+        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
     }
 }

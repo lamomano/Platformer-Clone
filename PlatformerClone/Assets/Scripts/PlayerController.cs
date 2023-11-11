@@ -15,7 +15,6 @@ using UnityEngine.SceneManagement;
  */
 public class PlayerController : MonoBehaviour
 {
-
     public int speed = 0; 
     public int jumpForce = 10;
     public float shootingCooldown = 0.5f;
