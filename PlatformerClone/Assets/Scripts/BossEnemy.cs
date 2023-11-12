@@ -1,28 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
-
-
 /*
- * Author: [Nguyen, Kanyon]
- * Last Updated: [10/23/2023]
- * [Handles the movement of the thwomp objects.]
+ * Author: [Nguyen, Kanyon] & [Vrablick, Calihan]
+ * Last Updated: [11/11/2023]
+ * [Handles the functionality of the Boss Enemy]
  */
-public class Thwomp : MonoBehaviour
+public class BossEnemy : MonoBehaviour
 {
+    [SerializeField] private GameObject player;
+    [SerializeField] private float movementSpeed = 1.5f;
+    [SerializeField] public int contactDamage = 0;
+    [SerializeField] public int health = 0;
+
+
+
     //game objects to determine how far top/bottom the Thwomp will go
     public GameObject topPoint;
     public GameObject bottomPoint;
-
 
     //boundary points for top/bottom
     private Vector3 topPos;
     private Vector3 bottomPos;
 
     //side to side movement speed
-    private int speed = 4;
+    private int verticalSpeed = 4;
 
     //direction the Thwomp is going-up
     public bool goingUp;
@@ -32,21 +37,35 @@ public class Thwomp : MonoBehaviour
 
 
 
-
-
     // Start is called before the first frame update
     void Start()
     {
         topPos = topPoint.transform.position;
         bottomPos = bottomPoint.transform.position;
+
+
+        GameObject[] allGameObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+        foreach (GameObject thisObject in allGameObjects)
+        {
+            if (thisObject.name == "Player")
+            {
+                player = thisObject;
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
         ThwompMovement();
-    }
 
+        if (health <= 0)
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+    }
 
 
 
@@ -83,7 +102,7 @@ public class Thwomp : MonoBehaviour
             else
             {
                 //translate the Thwomp up by speed using Time.deltaTime
-                transform.position += Vector3.up * speed * Time.deltaTime;
+                transform.position += Vector3.up * verticalSpeed * Time.deltaTime;
             }
         }
         else
@@ -99,7 +118,7 @@ public class Thwomp : MonoBehaviour
             else
             {
                 //translate the Thwomp down by speed using Time.deltaTime
-                transform.position += Vector3.down * speed * Time.deltaTime;
+                transform.position += Vector3.down * verticalSpeed * Time.deltaTime;
             }
         }
     }

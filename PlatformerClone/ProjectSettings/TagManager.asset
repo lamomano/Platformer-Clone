@@ -13,6 +13,7 @@ TagManager:
   - HardEnemy
   - Jetpack
   - HeavyBullet
+  - BossEnemy
   layers:
   - Default
   - TransparentFX

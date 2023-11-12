@@ -292,18 +292,20 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.tag == "RegularEnemy")
         {
-            
             int damage = other.gameObject.GetComponent<RegularEnemy>().contactDamage;
             TakeDamage(damage);
-            //Respawn();
         }
 
         if (other.gameObject.tag == "HardEnemy")
         {
-
             int damage = other.gameObject.GetComponent<HardEnemy>().contactDamage;
             TakeDamage(damage);
-            //Respawn();
+        }
+
+        if (other.gameObject.tag == "BossEnemy")
+        {
+            int damage = other.gameObject.GetComponent<BossEnemy>().contactDamage;
+            TakeDamage(damage);
         }
 
         if (other.gameObject.tag == "Jetpack")
