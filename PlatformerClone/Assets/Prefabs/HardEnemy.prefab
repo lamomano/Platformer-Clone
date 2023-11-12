@@ -122,6 +122,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   speed: 1.5
+  contactDamage: 35
+  health: 10
 --- !u!54 &7178321865828920539
 Rigidbody:
   m_ObjectHideFlags: 0

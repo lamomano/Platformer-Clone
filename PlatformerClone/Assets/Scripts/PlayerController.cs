@@ -289,8 +289,14 @@ public class PlayerController : MonoBehaviour
             
             int damage = other.gameObject.GetComponent<RegularEnemy>().contactDamage;
             TakeDamage(damage);
-            
+            //Respawn();
+        }
 
+        if (other.gameObject.tag == "HardEnemy")
+        {
+
+            int damage = other.gameObject.GetComponent<HardEnemy>().contactDamage;
+            TakeDamage(damage);
             //Respawn();
         }
 

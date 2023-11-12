@@ -57,7 +57,8 @@ public class PlayerLaser : MonoBehaviour
             }
             if (other.gameObject.tag == "HardEnemy")
             {
-                //other.gameObject.GetComponent<HardEnemy>().health -= damage;
+                other.gameObject.GetComponent<HardEnemy>().health -= damage;
+                print("damaged enemy");
             }
 
 
