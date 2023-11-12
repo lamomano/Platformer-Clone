@@ -16,6 +16,8 @@ public class BossEnemy : MonoBehaviour
     [SerializeField] public int contactDamage = 0;
     [SerializeField] public int health = 0;
 
+    public GameObject laserPrefab;
+
 
 
     //game objects to determine how far top/bottom the Thwomp will go
@@ -27,12 +29,15 @@ public class BossEnemy : MonoBehaviour
     private Vector3 bottomPos;
 
     //side to side movement speed
-    private int verticalSpeed = 4;
+    private int verticalSpeed = 8;
 
     //direction the Thwomp is going-up
     public bool goingUp;
     //check to see if the Thwomp is waiting
     public bool waiting;
+
+    private bool shootingDebounce = false;
+    public float shootingCooldown = 3;
 
 
 
@@ -42,7 +47,6 @@ public class BossEnemy : MonoBehaviour
     {
         topPos = topPoint.transform.position;
         bottomPos = bottomPoint.transform.position;
-
 
         GameObject[] allGameObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
         foreach (GameObject thisObject in allGameObjects)
@@ -54,11 +58,61 @@ public class BossEnemy : MonoBehaviour
         }
     }
 
+
+
+    /// <summary>
+    /// shoots lasers at the player if the player is within proximity
+    /// </summary>
+    void Shoot()
+    {
+        if (shootingDebounce == true)
+            return;
+
+        GameObject projectile = Instantiate(laserPrefab, transform.position, laserPrefab.transform.rotation);
+        if (projectile.GetComponent<EnemyLaser>())
+        {
+            // get direction of player
+
+            bool shootLeft;
+            if (player.transform.position.x > gameObject.transform.position.x)
+                shootLeft = false;
+            else
+                shootLeft = true;
+
+            //print("boss shooting");
+            StartCoroutine(ShootDebounce());
+
+            projectile.GetComponent<EnemyLaser>().goingLeft = shootLeft;
+        }
+    }
+
+
+
+    /// <summary>
+    /// prevents the lasers from being spammed by setting debounce to true, which stops the bullets from shooting
+    /// resets the debounce after x seconds has passed
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator ShootDebounce()
+    {
+        shootingDebounce = true;
+        yield return new WaitForSeconds(shootingCooldown);
+        shootingDebounce = false;
+    }
+
+
+
     // Update is called once per frame
     void Update()
     {
+        if (Vector3.Distance(player.transform.position, transform.position) > 20)
+        {
+            //print("player too far");
+            return;
+        }
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
         ThwompMovement();
+        //Shoot();
 
         if (health <= 0)
         {
@@ -81,9 +135,6 @@ public class BossEnemy : MonoBehaviour
         goingUp = true;
         waiting = false;
     }
-
-
-
 
 
 

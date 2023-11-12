@@ -305,8 +305,11 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.tag == "BossEnemy")
         {
-            int damage = other.gameObject.GetComponent<BossEnemy>().contactDamage;
-            TakeDamage(damage);
+            if (other.gameObject.GetComponent<BossEnemy>() != null) 
+            {
+                int damage = other.gameObject.GetComponent<BossEnemy>().contactDamage;
+                TakeDamage(damage);
+            }
         }
 
         if (other.gameObject.tag == "Jetpack")
@@ -469,18 +472,19 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// scans to see if the thwomp hit the player from the bottom or the top
+    /// scans to see if the boss hit the player from the bottom or the top
     /// </summary>
     public void CheckForDanger()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out hit, maxDistance: 1f))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out hit, maxDistance: 1.1f))
         {
-            //If player hits the collider and its tagged Thwomp then Respawn
-            if (hit.collider.gameObject.tag == "Thwomp")
+            if (hit.collider.gameObject.tag == "BossEnemy")
             {
-                Respawn();
+                // double damage
+                //print("double damage");
+                TakeDamage(hit.collider.gameObject.GetComponent<BossEnemy>().contactDamage * 2);
             }
         }
     }

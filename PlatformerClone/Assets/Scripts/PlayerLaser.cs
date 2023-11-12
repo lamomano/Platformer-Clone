@@ -60,6 +60,11 @@ public class PlayerLaser : MonoBehaviour
                 other.gameObject.GetComponent<HardEnemy>().health -= damage;
                 print("damaged enemy");
             }
+            if (other.gameObject.tag == "BossEnemy")
+            {
+                other.gameObject.GetComponent<BossEnemy>().health -= damage;
+                print("damaged enemy");
+            }
 
 
             //print(other.gameObject.tag);
