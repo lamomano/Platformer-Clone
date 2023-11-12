@@ -15,7 +15,21 @@ public class HardEnemy : MonoBehaviour
     [SerializeField] private float speed = 1.5f;
     [SerializeField] public int contactDamage = 0;
     [SerializeField] public int health = 0;
-    
+
+
+
+    private void Start()
+    {
+        GameObject[] allGameObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+        foreach (GameObject thisObject in allGameObjects)
+        {
+            if (thisObject.name == "Player")
+            {
+                player = thisObject;
+            }
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
