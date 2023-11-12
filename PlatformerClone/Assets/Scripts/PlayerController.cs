@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
     public bool shootingDebounce = false;
     public bool heavyLaserEnabled = false;
 
+    public float coinsCollected = 0;
+
 
 
     // Start is called before the first frame update
@@ -282,11 +284,10 @@ public class PlayerController : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Coin")
+        //if we collide with a coin trigger, delete it and add to score
+        if (other.gameObject.tag == "Coins")
         {
-            Coin thisCoin = other.GetComponent<Coin>();
-            totalCoins += thisCoin.value;
-            //thisCoin.value = 0;
+            coinsCollected++;
             other.gameObject.SetActive(false);
         }
 

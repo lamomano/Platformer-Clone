@@ -16,11 +16,13 @@ public class UIManager : MonoBehaviour
 
     public PlayerController playerController;
     public TMP_Text healthText;
+    public TMP_Text coinsText;
 
 
     // Update is called once per frame
     void Update()
     {
         healthText.text = "Health: " + playerController.health;
+        coinsText.text = "Coins: " + playerController.coinsCollected;
     }
 }
