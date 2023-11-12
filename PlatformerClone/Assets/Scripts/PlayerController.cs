@@ -65,6 +65,12 @@ public class PlayerController : MonoBehaviour
         Move();
         Shoot();
         SpaceJump();
+
+        if (health <= 0)
+        {
+            SceneManager.LoadScene(4);
+            this.enabled = false;
+        }
     }
 
 
@@ -410,11 +416,6 @@ public class PlayerController : MonoBehaviour
             health -= damageToTake;
             StartCoroutine(TurnInvincible());
         }
-        if (health <= 0)
-        {
-            SceneManager.LoadScene(3);
-            //die
-        }
     }
 
 
@@ -460,12 +461,6 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = startPosition;
         health--;
-
-        if (health <= 0)
-        {
-            SceneManager.LoadScene(1);
-            this.enabled = false;
-        }
     }
 
 
