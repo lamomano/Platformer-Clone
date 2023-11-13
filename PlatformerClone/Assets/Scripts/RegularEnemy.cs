@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * Vrablick, Calihan
- * 10/30/23
- * Handles code for enemies
+ * Vrablick, Calihan & Nguyen, Kanyon
+ * 11/13/23
+ * Handles code for the regualar enemies
  */
 
 public class RegularEnemy : MonoBehaviour

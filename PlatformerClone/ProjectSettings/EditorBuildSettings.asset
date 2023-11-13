@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Over.unity
     guid: 7d38ee6687a630547b2be7faa4a2a944
+  - enabled: 1
+    path: Assets/Scenes/BrokeScreen.unity
+    guid: ba06c1b5c96d84a2996c92be168abc6e
+  - enabled: 1
+    path: Assets/Scenes/VictoryScreen.unity
+    guid: d9ce0ab1de9594e69852d7f616d6cd1e
   m_configObjects: {}

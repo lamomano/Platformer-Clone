@@ -9,8 +9,8 @@ using UnityEngine.SceneManagement;
 
 
 /*
- * Author: [Nguyen, Kanyon]
- * Last Updated: [10/31/2023]
+ * Author: [Nguyen, Kanyon & Vrablick, Calihan]
+ * Last Updated: [11/13/2023]
  * [Handles the functionality of the player, including collision interaction, movement, and raycasting]
  */
 public class PlayerController : MonoBehaviour
@@ -366,7 +366,16 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "FinalTeleporter")
         {
             //Debug.Log("Collided with FinalTeleporter");
-            
+            if (heavyLaserEnabled == false)
+            {
+                print("Heavy Lasers are not enabled");
+                return; 
+            }
+            if (jumpForce <= 20)
+            {
+                print("Jet pack is not enabled");
+                return;
+            }
             //if Coins equal to the amount of Coins needed, stored in FinalTeleporter.cs then go into the if statement
             if (Coins == other.transform.GetComponent<FinalTeleporter>().coinsNeeded)
             {
@@ -382,8 +391,8 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Not enough coins to get to Boss Fight, killing the player");
-                //SceneManager.LoadScene(4);
+                print("Skill issue, should have collected coins");
+                SceneManager.LoadScene(5);
             }
         }
     }

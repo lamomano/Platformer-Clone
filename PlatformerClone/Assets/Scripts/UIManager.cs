@@ -7,8 +7,8 @@ using TMPro;
 
 
 /*
- * Author: [Nguyen, Kanyon]
- * Last Updated: [10/23/2023]
+ * Author: [Nguyen, Kanyon] & [Vrablick, Calihan]
+ * Last Updated: [11/13/2023]
  * [Handles all the scores and lives gui in the game scene.]
  */
 public class UIManager : MonoBehaviour

@@ -5,7 +5,7 @@ using UnityEngine;
 
 /*
  * Author: [Vrablick, Calihan] & [Nguyen, Kanyon]
- * Last Updated: [11/11/2023]
+ * Last Updated: [11/13/2023]
  * [Controls the movement of the hard enemy]
  */
 
@@ -37,9 +37,10 @@ public class HardEnemy : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
 
         if (health <= 0)
-        {
+        { 
             gameObject.SetActive(false);
             Destroy(gameObject);
         }
+
     }
 }
