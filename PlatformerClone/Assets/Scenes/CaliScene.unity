@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -180,6 +180,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2920679fce856443ab2c5ab743883f2c, type: 3}
+--- !u!114 &57375104 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7675736738102062737, guid: 5666fd2f9b2aab24c9d864e4d4ebdcfb, type: 3}
+  m_PrefabInstance: {fileID: 1076404920}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &94404117
 GameObject:
   m_ObjectHideFlags: 0
@@ -4470,7 +4481,7 @@ PrefabInstance:
     - target: {fileID: 6847409446689236276, guid: 5666fd2f9b2aab24c9d864e4d4ebdcfb, type: 3}
       propertyPath: coinsText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 57375104}
     - target: {fileID: 6847409446689236276, guid: 5666fd2f9b2aab24c9d864e4d4ebdcfb, type: 3}
       propertyPath: playerController
       value: 
@@ -8859,8 +8870,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c2e05bd3ff34a1db4115a0467766f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinsCollected: 0
-  Coins: 0
+  player: {fileID: 0}
+  startPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &2037935293 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7364279876269802651, guid: 972e6616c5065844d98d04a383ead9ab, type: 3}

@@ -23,6 +23,6 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         healthText.text = "Health: " + playerController.health;
-        coinsText.text = "Coins: " + playerController.coinsCollected;
+        coinsText.text = "Coins: " + playerController.Coins;
     }
 }

@@ -288,9 +288,11 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Coins")
         {
             Coins++;
-            other.gameObject.SetActive(false);
             Debug.Log("Hit a Coin");
+            other.gameObject.SetActive(false);
+            Destroy(other.gameObject);
         }
+
         if (other.gameObject.tag == "RegularEnemy")
         {
             int damage = other.gameObject.GetComponent<RegularEnemy>().contactDamage;
@@ -358,6 +360,31 @@ public class PlayerController : MonoBehaviour
             startPosition = other.gameObject.GetComponent<Teleporter>().spawnPoint.transform.position;
             //teleport the player to the "new" startPosition
             transform.position = startPosition;
+        }
+
+        //if the object that got collided with is tagged with FinalTeleporter
+        if (other.gameObject.tag == "FinalTeleporter")
+        {
+            //Debug.Log("Collided with FinalTeleporter");
+            
+            //if Coins equal to the amount of Coins needed, stored in FinalTeleporter.cs then go into the if statement
+            if (Coins == other.transform.GetComponent<FinalTeleporter>().coinsNeeded)
+            {
+                //set door off
+                other.gameObject.SetActive(false);
+                //remove amount of keys used
+                Coins -= other.transform.GetComponent<FinalTeleporter>().coinsNeeded;
+
+                //reset the startPosition to the spawnPoint location
+                startPosition = other.transform.GetComponent<FinalTeleporter>().spawnPoint.transform.position;
+                //teleport the player to the "new" startPosition
+                transform.position = startPosition;
+            }
+            else
+            {
+                Debug.Log("Not enough coins to get to Boss Fight, killing the player");
+                //SceneManager.LoadScene(4);
+            }
         }
     }
 
