@@ -12,4 +12,5 @@ public class Teleporter : MonoBehaviour
 {
     //game object to tell where the spawn point is
     public GameObject spawnPoint;
+
 }

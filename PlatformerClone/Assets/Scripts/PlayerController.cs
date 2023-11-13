@@ -25,7 +25,10 @@ public class PlayerController : MonoBehaviour
 
     public int maxHealth = 99;
     public int health = 99;
+    public int coinsCollected = 0;
+    public int Coins = 0;
     public int fallDepth;
+
     private Vector3 startPosition;
 
     public float stunTimer;
@@ -41,9 +44,6 @@ public class PlayerController : MonoBehaviour
     public bool facingLeft;
     public bool shootingDebounce = false;
     public bool heavyLaserEnabled = false;
-
-    public float coinsCollected = 0;
-
 
 
     // Start is called before the first frame update
@@ -284,13 +284,13 @@ public class PlayerController : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
-        //if we collide with a coin trigger, delete it and add to score
+        //if the object I collide with has the tag Coins, add one to the Coins count and set the interacted with object to off
         if (other.gameObject.tag == "Coins")
         {
-            coinsCollected++;
+            Coins++;
             other.gameObject.SetActive(false);
+            Debug.Log("Hit a Coin");
         }
-
         if (other.gameObject.tag == "RegularEnemy")
         {
             int damage = other.gameObject.GetComponent<RegularEnemy>().contactDamage;
