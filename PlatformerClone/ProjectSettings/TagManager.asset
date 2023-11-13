@@ -15,6 +15,7 @@ TagManager:
   - HeavyBullet
   - BossEnemy
   - Coins
+  - FinalTeleporter
   layers:
   - Default
   - TransparentFX
