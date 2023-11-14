@@ -458,7 +458,7 @@ public class PlayerController : MonoBehaviour
     /// if player is invincible, dont take damage
     /// </summary>
     /// <param name="damageToTake"></param>
-    private void TakeDamage(int damageToTake)
+    public void TakeDamage(int damageToTake)
     {
 
         if (isInvincible == false)
@@ -489,6 +489,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// makes the player capsule invisible or visible based on its current visibility
+    /// </summary>
     private void toggleBlink()
     {
         //print(gameObject.name);
@@ -505,7 +508,7 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// teleports the player back to the most recent spawn point
     /// </summary>
     private void Respawn()
     {

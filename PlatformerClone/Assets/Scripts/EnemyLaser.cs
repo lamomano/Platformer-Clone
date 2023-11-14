@@ -51,7 +51,7 @@ public class EnemyLaser : MonoBehaviour
             // do damage if the target hit was an enemy
             if (other.gameObject.tag == "Player")
             {
-                other.gameObject.GetComponent<PlayerController>().health -= damage;
+                other.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
                 print("damaged hooman");
             }
 
