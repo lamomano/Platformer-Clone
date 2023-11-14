@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * Vrablick, Calihan & Nguyen, Kanyon
- * 11/13/23
- * handles the functionality of the teleporter
+ * [Vrablick, Calihan & Nguyen, Kanyon]
+ * Last Updated: [11/13/2023]
+ * [Handles the functionality of the teleporter]
  */
 
 public class Teleporter : MonoBehaviour

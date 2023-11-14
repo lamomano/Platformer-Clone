@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 
 /*
- * Author: [Nguyen, Kanyon]
+ * Author: [Nguyen, Kanyon] & [Calihan, Vrablick]
  * Last Updated: [10/02/2023]
  * [Handles the main menu and game over screen button functionalities to restart or quit the game.]
  */

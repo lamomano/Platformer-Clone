@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * Vrablick, Calihan & Nguyen, Kanyon
- * 11/13/23
- * Handles code for the regualar enemies
+ * [Vrablick, Calihan & Nguyen, Kanyon]
+ * Last Updated: [11/13/2023]
+ * [Handles the functionality for the regular enemies]
  */
 
 public class RegularEnemy : MonoBehaviour

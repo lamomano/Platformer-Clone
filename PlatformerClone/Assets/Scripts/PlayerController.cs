@@ -227,9 +227,17 @@ public class PlayerController : MonoBehaviour
         else
         {
             if (Input.GetKey(KeyCode.LeftArrow))
+            {
                 shootingLeft = true;
+                gunBarrel.localPosition = new Vector3(-1.125f, 0.25f, 0f);
+                facingLeft = true;
+            } 
             else if (Input.GetKey(KeyCode.RightArrow))
+            {
                 shootingLeft = false;
+                gunBarrel.localPosition = new Vector3(1.125f, 0.25f, 0f);
+                facingLeft = false;
+            } 
             else
             {
                 // no key was pressed
@@ -371,7 +379,7 @@ public class PlayerController : MonoBehaviour
                 print("Heavy Lasers are not enabled");
                 return; 
             }
-            if (jumpForce <= 20)
+            if (jumpForce < 20)
             {
                 print("Jet pack is not enabled");
                 return;

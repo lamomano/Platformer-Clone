@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 /*
@@ -105,6 +106,13 @@ public class BossEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (health <= 0)
+        {
+            // send signal to playercontroller to switch scenes
+            SceneManager.LoadScene(6);
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
         if (Vector3.Distance(player.transform.position, transform.position) > 20)
         {
             //print("player too far");
@@ -113,12 +121,6 @@ public class BossEnemy : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
         ThwompMovement();
         //Shoot();
-
-        if (health <= 0)
-        {
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
     }
 
 
